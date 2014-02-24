@@ -20,17 +20,17 @@ function makePage(){
 	body= "",
 	start=
 		"<html>\n"+
-		" <head>\n"+
-		'<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>\n'+
-		'<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">\n'+
-		'<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">\n'+
-		'<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>\n',
+		"\t<head>\n"+
+		'\t\t<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>\n'+
+		'\t\t<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">\n'+
+		'\t\t<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">\n'+
+		'\t\t<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>\n',
 	middle=
-		" </head>\n" +
-		" <body>\n",
+		"\t</head>\n" +
+		"\t<body>\n",
 
 	end= 
-		" </body>\n"+
+		"\t</body>\n"+
 		"</html>\n";
 
 	return {
@@ -39,11 +39,11 @@ function makePage(){
 		},
 		toString: function(){
 		return start+
-			"<title>"+title+"</title>\n"+
+			"\t\t<title>"+title+"</title>\n"+
 			middle+body+"\n"+end;
 		},
 		write: function(s){
-			body+=s;		
+			body+= "\t\t"+s;		
 		}
 	}
 }
