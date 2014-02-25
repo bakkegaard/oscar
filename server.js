@@ -50,7 +50,26 @@ function makePage(){
 
 function makeFrontPage(){
 	var page = makePage();
-	page.write('<ul class="nav nav-tabs"> <li class="active"><a href="#">Home</a></li> <li><a href="#">Profile</a></li> <li><a href="#">Messages</a></li> </ul>');
+
+	page.write('<center>\n'+
+			   '\t\t\t<div id="main">\n'+
+			   '\t\t\t\t<h1>Oscars</h1>\n'+
+			   '\t\t\t</div>\n');
+	page.write('\n');
+	page.write('\t<ul class="nav nav-tabs" id="myTabs">\n'+ 
+			   '\t\t\t\t<li class="active"><a href="#">Scoreboard</a></li>\n'+
+			   '\t\t\t\t<li><a href="#">Profile</a></li>\n'+
+			   '\t\t\t\t<li><a href="#">Messages</a></li>\n'+
+			   '\t\t\t</ul>\n');
+	page.write('\n');
+	page.write('\t<div class="tab-conent">\n'+
+			   '\t\t\t\t<div class="tab-pane active" id="Scoreboard"></div>\n'+
+			   '\t\t\t\t<div class="tab-pane" id="Profile"></div>\n'+
+			   '\t\t\t\t<div class="tab-pane" id="Messages"></div>\n'+
+			   '\t\t\t</div>\n');	
+	
+	page.write('</center>');
+	
 	return page.toString();
 }
 
