@@ -12,8 +12,7 @@ http.createServer(function (req, res) {
 
 	res.end();
 
-}).listen(1337, '127.0.0.1');
-
+}).listen(1337, '127.0.0.1'); 
 function makePage(){
 
 	var title= "";
@@ -73,12 +72,24 @@ function makePage(){
 
 function makeFrontPage(){
 	var page = makePage();
-	page.write(0,'<ul class="nav nav-tabs">'); 
-	page.write(1,'<li class="active"><a href="#">Home</a></li>');
-	page.write(1,'<li><a href="#">Profile</a></li>'); 
-	page.write(1,'<li><a href="#">Messages</a></li>');
-	page.write(0,'</ul>');
 
+	page.write(0,'<center>');
+	page.write(1,'<div id="main">');
+	page.write(2,'<h1>Oscars</h1>');
+	page.write(1,'</div>');
+	page.write(1,'<ul class="nav nav-tabs" id="myTabs">');
+	page.write(2,'<li class="active"><a href="#">Scoreboard</a></li>');
+	page.write(2,'<li><a href="#">Profile</a></li>');
+	page.write(2,'<li><a href="#">Messages</a></li>');
+	page.write(1,'</ul>');
+	page.write(1,'<div class="tab-conent">');
+	page.write(2,'<div class="tab-pane active" id="Scoreboard"></div>');
+	page.write(2,'<div class="tab-pane" id="Profile"></div>');
+	page.write(2,'<div class="tab-pane" id="Messages"></div>');
+	page.write(1,'</div>');	
+	
+	page.write(0,'</center>');
+	
 	return page.toString();
 }
 
