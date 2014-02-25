@@ -33,19 +33,20 @@ function makePage(){
 		"\t</body>\n"+
 		"</html>\n";
 
-	return {
-		setTitle: function(s){
-			title=s;
-		},
-		toString: function(){
+	var obj= {};
+
+	obj.setTitle= function (s){
+		title=s;
+	}
+	obj.toString= function(){
 		return start+
 			"\t\t<title>"+title+"</title>\n"+
 			middle+body+"\n"+end;
-		},
-		write: function(s){
+	}
+	obj.write = function(s){
 			body+= "\t\t"+s;		
 		}
-	}
+	return obj;	
 }
 
 function makeFrontPage(){
