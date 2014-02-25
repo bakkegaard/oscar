@@ -8,7 +8,7 @@ http.createServer(function (req, res) {
 	page.setTitle("Some nice title!");
 	page.write("hello world!");
 
-	res.write(page.toString());
+	res.write(makeFrontPage());
 
 	res.end();
 
@@ -46,6 +46,12 @@ function makePage(){
 			body+= "\t\t"+s;		
 		}
 	}
+}
+
+function makeFrontPage(){
+	var page = makePage();
+	page.write('<ul class="nav nav-tabs"> <li class="active"><a href="#">Home</a></li> <li><a href="#">Profile</a></li> <li><a href="#">Messages</a></li> </ul>');
+	return page.toString();
 }
 
 console.log('Server running at http://127.0.0.1:1337/');
