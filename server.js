@@ -15,23 +15,42 @@ http.createServer(function (req, res) {
 }).listen(1337, '127.0.0.1');
 
 function makePage(){
-	var 
-	title= "",
-	body= "",
-	start=
-		"<html>\n"+
-		"\t<head>\n"+
-		'\t\t<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>\n'+
-		'\t\t<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">\n'+
-		'\t\t<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">\n'+
-		'\t\t<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>\n',
-	middle=
-		"\t</head>\n" +
-		"\t<body>\n",
 
-	end= 
-		"\t</body>\n"+
-		"</html>\n";
+	var title= "";
+	var main= "";
+	var body= "";
+
+	function start(){
+		lineMain(0,"<html>");
+		lineMain(1,"<head>");
+		lineMain(2,'<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>');
+		lineMain(2,'<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">');
+		lineMain(2,'<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">');
+		lineMain(2,'<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>');
+	}
+	function middle(){
+		lineMain(1,"</head>");
+		lineMain(1,"<body>");
+	}
+
+	function end(){
+		lineMain(1,"</body>");
+		lineMain(0,"</html>");
+	}
+
+	function lineMain(tabs,s){
+		main+=line(tabs,s);
+	}
+
+	function line(tabs,s){
+		var temp="";
+		for(var i=0;i<tabs;i++){
+			temp+='\t';
+		}
+		temp+=s;
+		temp+='\n';
+		return temp;
+	}
 
 	var obj= {};
 
@@ -39,19 +58,27 @@ function makePage(){
 		title=s;
 	}
 	obj.toString= function(){
-		return start+
-			"\t\t<title>"+title+"</title>\n"+
-			middle+body+"\n"+end;
+		start()
+		lineMain(2,"<title>"+title+"</title>");
+		middle();
+		main+=body;
+		end();
+		return main;
 	}
-	obj.write = function(s){
-			body+= "\t\t"+s;		
+	obj.write = function(tabs,s){
+			body+= line(tabs+2,s);
 		}
 	return obj;	
 }
 
 function makeFrontPage(){
 	var page = makePage();
-	page.write('<ul class="nav nav-tabs"> <li class="active"><a href="#">Home</a></li> <li><a href="#">Profile</a></li> <li><a href="#">Messages</a></li> </ul>');
+	page.write(0,'<ul class="nav nav-tabs">'); 
+	page.write(1,'<li class="active"><a href="#">Home</a></li>');
+	page.write(1,'<li><a href="#">Profile</a></li>'); 
+	page.write(1,'<li><a href="#">Messages</a></li>');
+	page.write(0,'</ul>');
+
 	return page.toString();
 }
 
