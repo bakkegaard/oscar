@@ -1,16 +1,27 @@
 var http = require('http');
+var fs = require('fs');
 
 http.createServer(function (req, res) {
-	res.writeHead(200, {'Content-Type': 'text/html'});
 
-	var page=makePage();
+	if(req.url==='/main.js') {
+		res.writeHead(200, {'Content-Type': 'application/javascript'});
+		fs.readFile('main.js', 'utf-8',function(err,data) {
+			res.write(data);
+			res.end();
+		});
+	}
+	else {
+		res.writeHead(200, {'Content-Type': 'text/html'});
+		var page=makePage();
 
-	page.setTitle("Some nice title!");
-	page.write("hello world!");
+		page.setTitle("Some nice title!");
+		page.write("hello world!");
 
-	res.write(makeFrontPage());
+		res.write(makeFrontPage());
 
-	res.end();
+		res.end();
+	}	
+
 
 }).listen(1337, '127.0.0.1'); 
 function makePage(){
@@ -26,6 +37,7 @@ function makePage(){
 		lineMain(2,'<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">');
 		lineMain(2,'<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">');
 		lineMain(2,'<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>');
+		lineMain(2,'<script src="main.js"></script>');
 	}
 	function middle(){
 		lineMain(1,"</head>");
@@ -78,14 +90,16 @@ function makeFrontPage(){
 	page.write(2,'<h1>Oscars</h1>');
 	page.write(1,'</div>');
 	page.write(1,'<ul class="nav nav-tabs" id="myTabs">');
-	page.write(2,'<li class="active"><a href="#">Scoreboard</a></li>');
-	page.write(2,'<li><a href="#">Profile</a></li>');
-	page.write(2,'<li><a href="#">Messages</a></li>');
+	page.write(2,'<li class="active"><a href="#scoreboard">Scoreboard</a></li>');
+	page.write(2,'<li><a href="#profile">Profile</a></li>');
+	page.write(2,'<li><a href="#messages">Messages</a></li>');
 	page.write(1,'</ul>');
-	page.write(1,'<div class="tab-conent">');
-	page.write(2,'<div class="tab-pane active" id="Scoreboard"></div>');
-	page.write(2,'<div class="tab-pane" id="Profile"></div>');
-	page.write(2,'<div class="tab-pane" id="Messages"></div>');
+	page.write(1,'<div class="tab-content">');
+	page.write(2,'<div class="tab-pane active" id="scoreboard">1</div>');
+	page.write(2,'<div class="tab-pane" id="profile">2</div>');
+	page.write(2,'<div class="tab-pane" id="messages">');
+	page.write(3,'<h1>test</h1>');
+	page.write(2,'</div>');
 	page.write(1,'</div>');	
 	
 	page.write(0,'</center>');
