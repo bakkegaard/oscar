@@ -1,3 +1,5 @@
+USE oscar;
+
 INSERT INTO film(navn) VALUES ('American Hustle'),('Nebraska'),('The Wolf of Wall Street'),('12 Years a Slave'),('Dallas Buyers Club');
 
 INSERT INTO `guess` VALUES (1,1);
