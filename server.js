@@ -1,6 +1,16 @@
 var http = require('http');
 var fs = require('fs');
 var config = require('./config.js');
+var mysql      = require('mysql');
+
+var pool = mysql.createPool({
+	host     : config.localhost,
+	user     : config.user,
+	password : config.password,
+	database	: config.database
+});
+
+
 
 http.createServer(function (req, res) {
 
@@ -11,21 +21,20 @@ http.createServer(function (req, res) {
 			res.end();
 		});
 	}
+	else if(req.url==='/vote'){
+	makeVotePage(res)
+	}
 	else {
 		res.writeHead(200, {'Content-Type': 'text/html'});
-		var page=makePage();
 
-		page.setTitle("Some nice title!");
-		page.write("hello world!");
+		makeFrontPage(res)
 
-		res.write(makeFrontPage());
-
-		res.end();
 	}	
 
 
 }).listen(1337, '127.0.0.1'); 
-function makePage(){
+
+function makePage(res){
 
 	var title= "";
 	var main= "";
@@ -75,7 +84,8 @@ function makePage(){
 		middle();
 		main+=body;
 		end();
-		return main;
+		res.write(main);
+		res.end();
 	}
 	obj.write = function(tabs,s){
 			body+= line(tabs+2,s);
@@ -83,8 +93,25 @@ function makePage(){
 	return obj;	
 }
 
-function makeFrontPage(){
-	var page = makePage();
+function makeVotePage(res){
+
+	var page= makePage(res);
+
+	page.write(0,'<h1>Voting</h1>');
+
+	pool.getConnection(function(err,connection){
+		connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+		  if (err) throw err;
+
+		  page.write(1,'The solution is: '+rows[0].solution);
+
+		  page.toString();
+		});
+	});
+}
+
+function makeFrontPage(res){
+	var page = makePage(res);
 
 	page.write(0,'<center>');
 	page.write(1,'<div id="main">');
@@ -105,7 +132,7 @@ function makeFrontPage(){
 	
 	page.write(0,'</center>');
 	
-	return page.toString();
+	page.toString();
 }
 
 console.log('Server running at http://127.0.0.1:1337/');
