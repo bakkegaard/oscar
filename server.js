@@ -1,5 +1,6 @@
 var http = require('http');
 var fs = require('fs');
+var config = require('./config.js');
 
 http.createServer(function (req, res) {
 
