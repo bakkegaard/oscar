@@ -88,7 +88,7 @@ function makeFrontPage(){
 
 	page.write(0,'<center>');
 	page.write(1,'<div id="main">');
-	page.write(2,'<h1>Oscars</h1>');
+	page.write(2,'<h1>Oscars '+config.year+'</h1>');
 	page.write(1,'</div>');
 	page.write(1,'<ul class="nav nav-tabs" id="myTabs">');
 	page.write(2,'<li class="active"><a href="#scoreboard">Scoreboard</a></li>');
