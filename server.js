@@ -100,11 +100,32 @@ function makeVotePage(res){
 	page.write(0,'<h1>Voting</h1>');
 
 	pool.getConnection(function(err,connection){
-		connection.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
+		connection.query("select t1.id,filmnavn,note,navn as kategori from (SELECT nominering.id, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
+	
 		  if (err) throw err;
+		  page.write(1,'<form>');
 
-		  page.write(1,'The solution is: '+rows[0].solution);
+		  rows.sort(function(a,b){return a<b});
 
+			var i=0, current='lalala';
+			while(i<rows.length){
+
+				if(current==rows[i].kategori){
+					page.write(3,'<input name="'+current+'" type="radio" id="'+rows[i].id+'"/> '+rows[i].filmnavn+'<br/>');
+				}
+				else{
+					if(i!=0) page.write(4,'</div></div>');
+					current=rows[i].kategori;
+			page.write(2,'<div class="panel panel-default">');
+			page.write(3,'<div class="panel-heading">');
+			page.write(4,'<h3 class="panel-title">'+rows[i].kategori+'</h3>');
+			page.write(3,'</div>');
+			page.write(3, '<div class="panel-body">');
+
+			page.write(3,'<input name="'+current+'" type="radio" id="'+rows[i].id+'"/> '+rows[i].filmnavn+'<br/>');
+			}
+		i++;
+			}
 		  page.toString();
 		});
 	});
