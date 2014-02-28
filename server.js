@@ -144,7 +144,9 @@ function makeFrontPage(res){
 	page.write(2,'<li><a href="#messages">Messages</a></li>');
 	page.write(1,'</ul>');
 	page.write(1,'<div class="tab-content">');
-	page.write(2,'<div class="tab-pane active" id="scoreboard">1</div>');
+	page.write(2,'<div class="tab-pane active" id="scoreboard">');
+	page.write(2, makeScoreboard());
+	page.write(2,'</div>');
 	page.write(2,'<div class="tab-pane" id="profile">2</div>');
 	page.write(2,'<div class="tab-pane" id="messages">');
 	page.write(3,'<h1>test</h1>');
@@ -154,6 +156,10 @@ function makeFrontPage(res){
 	page.write(0,'</center>');
 	
 	page.toString();
+}
+
+function makeScoreboard() {
+	return '1';
 }
 
 console.log('Server running at http://127.0.0.1:1337/');
