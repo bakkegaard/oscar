@@ -22,7 +22,7 @@ http.createServer(function (req, res) {
 		});
 	}
 	else if(req.url==='/vote'){
-	makeVotePage(res)
+		makeVotePage(res)
 	}
 	else {
 		res.writeHead(200, {'Content-Type': 'text/html'});
