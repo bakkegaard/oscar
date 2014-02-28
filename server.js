@@ -111,7 +111,7 @@ function makeVotePage(res){
 			while(i<rows.length){
 
 				if(current==rows[i].kategori){
-					page.write(3,'<input name="'+current+'" type="radio" id="'+rows[i].id+'"/> '+rows[i].filmnavn+'<br/>');
+					page.write(3,'<input name="'+current+'" type="radio" id="'+rows[i].id+'"/> '+rows[i].filmnavn+' - <b>'+rows[i].note+'</b><br/>');
 				}
 				else{
 					if(i!=0) page.write(4,'</div></div>');
@@ -122,7 +122,7 @@ function makeVotePage(res){
 			page.write(3,'</div>');
 			page.write(3, '<div class="panel-body">');
 
-			page.write(3,'<input name="'+current+'" type="radio" id="'+rows[i].id+'"/> '+rows[i].filmnavn+'<br/>');
+			page.write(3,'<input name="'+current+'" type="radio" id="'+rows[i].id+'"/> '+rows[i].filmnavn+' - <b>'+rows[i].note+'</b><br/>');
 			}
 		i++;
 			}
