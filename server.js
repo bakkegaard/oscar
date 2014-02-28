@@ -1,5 +1,16 @@
 var http = require('http');
 var fs = require('fs');
+var config = require('./config.js');
+var mysql      = require('mysql');
+
+var pool = mysql.createPool({
+	host     : config.localhost,
+	user     : config.user,
+	password : config.password,
+	database	: config.database
+});
+
+
 
 http.createServer(function (req, res) {
 
@@ -10,21 +21,20 @@ http.createServer(function (req, res) {
 			res.end();
 		});
 	}
+	else if(req.url==='/vote'){
+	makeVotePage(res)
+	}
 	else {
 		res.writeHead(200, {'Content-Type': 'text/html'});
-		var page=makePage();
 
-		page.setTitle("Some nice title!");
-		page.write("hello world!");
+		makeFrontPage(res)
 
-		res.write(makeFrontPage());
-
-		res.end();
 	}	
 
 
 }).listen(1337, '127.0.0.1'); 
-function makePage(){
+
+function makePage(res){
 
 	var title= "";
 	var main= "";
@@ -74,7 +84,8 @@ function makePage(){
 		middle();
 		main+=body;
 		end();
-		return main;
+		res.write(main);
+		res.end();
 	}
 	obj.write = function(tabs,s){
 			body+= line(tabs+2,s);
@@ -82,12 +93,50 @@ function makePage(){
 	return obj;	
 }
 
-function makeFrontPage(){
-	var page = makePage();
+function makeVotePage(res){
+
+	var page= makePage(res);
+
+	page.write(0,'<h1>Voting</h1>');
+
+	pool.getConnection(function(err,connection){
+		connection.query("select t1.id,filmnavn,note,navn as kategori from (SELECT nominering.id, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
+	
+		  if (err) throw err;
+		  page.write(1,'<form>');
+
+		  rows.sort(function(a,b){return a<b});
+
+			var i=0, current='lalala';
+			while(i<rows.length){
+
+				if(current==rows[i].kategori){
+					page.write(3,'<input name="'+current+'" type="radio" id="'+rows[i].id+'"/> '+rows[i].filmnavn+'<br/>');
+				}
+				else{
+					if(i!=0) page.write(4,'</div></div>');
+					current=rows[i].kategori;
+			page.write(2,'<div class="panel panel-default">');
+			page.write(3,'<div class="panel-heading">');
+			page.write(4,'<h3 class="panel-title">'+rows[i].kategori+'</h3>');
+			page.write(3,'</div>');
+			page.write(3, '<div class="panel-body">');
+
+			page.write(3,'<input name="'+current+'" type="radio" id="'+rows[i].id+'"/> '+rows[i].filmnavn+'<br/>');
+			}
+		i++;
+			}
+		  page.toString();
+		});
+	});
+}
+
+function makeFrontPage(res){
+	var page = makePage(res);
 
 	page.write(0,'<center>');
 	page.write(1,'<div id="main">');
-	page.write(2,'<h1>Oscars</h1>');
+	page.write(2,'<h1>Oscars '+config.year+'</h1>');
 	page.write(1,'</div>');
 	page.write(1,'<ul class="nav nav-tabs" id="myTabs">');
 	page.write(2,'<li class="active"><a href="#scoreboard">Scoreboard</a></li>');
@@ -106,7 +155,7 @@ function makeFrontPage(){
 	
 	page.write(0,'</center>');
 	
-	return page.toString();
+	page.toString();
 }
 
 function makeScoreboard() {

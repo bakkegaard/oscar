@@ -1,0 +1,14 @@
+var config= {};
+
+config.year= 2014
+
+var mysql= {};
+
+mysql.user=			"";
+mysql.password=	"";
+mysql.database=	"";
+mysql.host=			"localhost";
+
+config.mysql=mysql;
+
+module.exports= config;
