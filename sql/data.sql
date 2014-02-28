@@ -94,12 +94,12 @@ INSERT INTO kategori(navn) VALUES
 
 
 
-INSERT INTO nominering(film,kategori,note,winner) VALUES 
-(1,1,'Christian Bale','\0'),
-(2,1,'Bruce Dern','\0'),
-(3,1,'Leonardo DiCaprio','\0'),
-(4,1,'Chiwetel Ejiofor','\0'),
-(5,1,'Matthew McConaughey','\0');
+INSERT INTO nominering(film,kategori,note) VALUES 
+(1,1,'Christian Bale'),
+(2,1,'Bruce Dern'),
+(3,1,'Leonardo DiCaprio'),
+(4,1,'Chiwetel Ejiofor'),
+(5,1,'Matthew McConaughey');
 --#(,,'','\0\),
 
 
