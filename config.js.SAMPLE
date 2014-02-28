@@ -1,14 +1,11 @@
 var config= {};
 
-config.year= 2014
+config.year= 2014;
 
-var mysql= {};
 
-mysql.user=			"";
-mysql.password=	"";
-mysql.database=	"";
-mysql.host=			"localhost";
-
-config.mysql=mysql;
+config.user=		"root";
+config.password=	"nick";
+config.database=	"oscar";
+config.host=		"localhost";
 
 module.exports= config;
