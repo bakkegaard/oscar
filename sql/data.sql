@@ -16,7 +16,7 @@ INSERT INTO film(navn) VALUES
 ('Dallas Buyers Club'),
 ('Despicable Me 2'),
 ('Dirty Wars'),
-('Ernest &amp; Celestine'),
+('Ernest and Celestine'),
 ('Facing Fear'),
 ('Feral'),
 ('Frozen'),
@@ -95,18 +95,29 @@ INSERT INTO kategori(navn) VALUES
 
 
 INSERT INTO nominering(film,kategori,note) VALUES 
-(1,1,'Christian Bale'),
-(2,1,'Bruce Dern'),
-(3,1,'Leonardo DiCaprio'),
-(4,1,'Chiwetel Ejiofor'),
-(5,1,'Matthew McConaughey'),
-(1,2,'Amy Adams'),
-(1,2,'Cate Blanchett'),
-(4,2,'Sandra Bullock'),
-(5,2,'Judi Dench'),
-(6,2,'Meryl Streep');
---#(,,'','\0\),
+(4,1,'Christian Bale'),
+(33,1,'Bruce Dern'),
+(61,1,'Leonardo DiCaprio'),
+(1,1,'Chiwetel Ejiofor'),
+(13,1,'Matthew McConaughey'),
 
+(4,2,'Amy Adams'),
+(9,2,'Cate Blanchett'),
+(21,2,'Sandra Bullock'),
+(36,2,'Judi Dench'),
+(6,2,'Meryl Streep'),
+
+(47,3,''),
+(14,3,''),
+(16,3,''),
+(19,3,''),
+(60,3,''),
+
+(18,4,''),
+(20,4,''),
+(32,4,''),
+(38,4,''),
+(41,4,'');
 
 
 INSERT INTO user(navn,hash) VALUES ('testbruger1','42');
