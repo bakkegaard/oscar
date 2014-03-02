@@ -14,14 +14,16 @@ var pool = mysql.createPool({
 
 http.createServer(function (req, res) {
 
-	if(req.url==='/main.js') {
+	var s= req.url.substring(1).split("/");
+
+	if(s[0]==='main.js') {
 		res.writeHead(200, {'Content-Type': 'application/javascript'});
 		fs.readFile('main.js', 'utf-8',function(err,data) {
 			res.write(data);
 			res.end();
 		});
 	}
-	else if(req.url==='/vote'){
+	else if(s[0]==='vote'){
 		makeVotePage(res)
 	}
 	else {
