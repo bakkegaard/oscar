@@ -33,7 +33,7 @@ CREATE TABLE `nominering` (
   `film` int(11) DEFAULT NULL,
   `kategori` int(11) DEFAULT NULL,
   `note` varchar(45) DEFAULT NULL,
-  `winner` bit(1) DEFAULT '\0',
+  `winner` int(1) DEFAULT 0,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
