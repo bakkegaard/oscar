@@ -99,7 +99,12 @@ INSERT INTO nominering(film,kategori,note) VALUES
 (2,1,'Bruce Dern'),
 (3,1,'Leonardo DiCaprio'),
 (4,1,'Chiwetel Ejiofor'),
-(5,1,'Matthew McConaughey');
+(5,1,'Matthew McConaughey'),
+(1,2,'Amy Adams'),
+(1,2,'Cate Blanchett'),
+(4,2,'Sandra Bullock'),
+(5,2,'Judi Dench'),
+(6,2,'Meryl Streep');
 --#(,,'','\0\),
 
 
