@@ -238,5 +238,4 @@ INSERT INTO nominering(film,kategori,note) VALUES
 (24,24,'Written by Spike Jonze'),
 (33,24,'Written by Bob Nelson');
 
-
 INSERT INTO user(navn,hash) VALUES ('testbruger1','42');
