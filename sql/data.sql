@@ -64,8 +64,6 @@ INSERT INTO film(navn) VALUES
 ('The Wolf of Wall Street');
 
 
-INSERT INTO `guess` VALUES (1,1);
-
 INSERT INTO kategori(navn) VALUES 
 ('Best Actor'),
 ('Best Actress'),
@@ -140,6 +138,8 @@ INSERT INTO nominering(film,kategori,note) VALUES
 (4,8,'David O. Russell'),
 (21,8,'Alfonso Cuarón'),
 (33,8,'Alexander Payne'),
+(1,8,'Steve McQueen'),
+(61,8,'Martin Scorsese'),
 
 (11,9,'Jeffrey Karoff'),
 (17,9,'Jason Cohen'),
@@ -239,4 +239,7 @@ INSERT INTO nominering(film,kategori,note) VALUES
 (33,24,'Written by Bob Nelson');
 
 
-INSERT INTO user(navn,hash) VALUES ('testbruger1','42');
+INSERT INTO user(navn,hash) VALUES 
+('Casper','1'),
+('Kenn','2'),
+('Nick','3');
