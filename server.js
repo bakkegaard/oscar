@@ -106,7 +106,6 @@ function makeVotePage(res){
 		  page.write(1,'<form>');
 
 		  rows.sort(function(a,b){return a<b});
-
 			var i=0, current='lalala';
 			while(i<rows.length){
 
@@ -145,39 +144,66 @@ function makeFrontPage(res){
 	page.write(1,'</ul>');
 	page.write(1,'<div class="tab-content">');
 	page.write(2,'<div class="tab-pane active" id="scoreboard">');
-	page.write(2, makeScoreboard());
+	makeScoreboard(page, 2);
+}
+
+function makeScoreboard(page, tab) {
+	page.write(tab+1,'<div class="panel panel-default">');
+	page.write(tab+2,'<div class="panel-heading"></div>');
+	page.write(tab+2,'<table class="table">');
+	page.write(tab+3,'<tr>');
+	page.write(tab+4,'<th>Name</th>');
+	page.write(tab+4,'<th>Correct</th>');
+	page.write(tab+4,'<th>Wrong</th>');
+	page.write(tab+3,'</tr>');
+	page.write(tab+2,'</table>');
+	page.write(tab+1,'</div>');	
+
 	page.write(2,'</div>');
 	page.write(2,'<div class="tab-pane" id="nominations">');
 	makeNominations(page, 2);
 }
 
-function makeScoreboard() {
-	return '1';
-}
-
 function makeNominations(page, tab) {
 	pool.getConnection(function(err, connection) {
-		connection.query("select t1.id,filmnavn,note,navn as kategori from (SELECT nominering.id, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
+		connection.query("select t1.id,filmnavn,note,navn as kategori, winner from (SELECT nominering.id,winner, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
 			if (err) throw err;
 			
-			var i = 0
-			var current = '';
+			var i = 0, current = '', winning = "";
 			while(i < rows.length) {
 				if(current != rows[i].kategori) {
-					current=rows[i].kategori;
 					if(i != 0) {
+						page.write(tab+3,'<p>Winner: <b>' + winning + '</b></p>');
 						page.write(tab+2,'</div>');
 						page.write(tab+1,'</div>');
+						winning = "";
 					}
+					current=rows[i].kategori;
+					
 					page.write(tab+1,'<div class="panel panel-default">');
 					page.write(tab+2,'<div class="panel-heading">');
 					page.write(tab+3,'<h3 class="panel-title">' + current + '</h3>');
 					page.write(tab+2,'</div>');
 					page.write(tab+2,'<div class="panel-body">');
-					page.write(tab+3,'<p>' + rows[i].filmnavn + " - " + rows[i].note + '</p>');	
+					if(rows[i].kategori == "Best Actor" || rows[i].kategori == "Best Actress" || rows[i].kategori == "Best Director"|| rows[i].kategori == "Best Supporting Actor" || rows[i].kategori == "Best Supporting Actress") {
+						page.write(tab+3,'<p>' + rows[i].filmnavn + ' - <b>' + rows[i].note + '</b></p>');	
+					} else {
+						page.write(tab+3,'<p><b>' + rows[i].filmnavn + "</b> - " + rows[i].note + '</p>');	
+					}
 				} else {	
-					page.write(tab+3,'<p>' + rows[i].filmnavn + " - " + rows[i].note + '</p>');	
+					if(rows[i].kategori == "Best Actor" || rows[i].kategori == "Best Actress" || rows[i].kategori == "Best Director" || rows[i].kategori == "Best Supporting Actor" || rows[i].kategori == "Best Supporting Actress") {
+						page.write(tab+3,'<p>' + rows[i].filmnavn + ' - <b>' + rows[i].note + '</b></p>');	
+					} else {
+						page.write(tab+3,'<p><b>' + rows[i].filmnavn + "</b> - " + rows[i].note + '</p>');	
+					}
 				}
+					if(rows[i].winner == 1) {
+						if(rows[i].kategori == "Best Actor" || rows[i].kategori == "Best Actress" || rows[i].kategori == "Best Director" || rows[i].kategori == "Best Supporting Actor" || rows[i].kategori == "Best Supporting Actress"){
+							winning = rows[i].note;
+						} else {
+							winning = rows[i].filmnavn;
+						}
+					}
 				i++;
 			}
 
