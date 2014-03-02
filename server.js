@@ -149,15 +149,6 @@ function makeFrontPage(res){
 	page.write(2,'</div>');
 	page.write(2,'<div class="tab-pane" id="nominations">');
 	makeNominations(page, 2);
-	page.write(2, '</div>');
-	page.write(2,'<div class="tab-pane" id="messages">');
-	page.write(3,'<h1>test</h1>');
-	page.write(2,'</div>');
-	page.write(1,'</div>');	
-	
-	page.write(0,'</center>');
-	
-	page.toString();
 }
 
 function makeScoreboard() {
@@ -187,6 +178,17 @@ function makeNominations(page, tab) {
 				}
 				i++;
 			}
+
+
+			page.write(2, '</div>');
+			page.write(2,'<div class="tab-pane" id="messages">');
+			page.write(3,'<h1>test</h1>');
+			page.write(2,'</div>');
+			page.write(1,'</div>');	
+			
+			page.write(0,'</center>');
+			
+			page.toString();
 		});
 	});
 	
