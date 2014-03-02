@@ -159,26 +159,29 @@ function makeNominations(page, tab) {
 		connection.query("select t1.id,filmnavn,note,navn as kategori from (SELECT nominering.id, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
 			if (err) throw err;
 			
-			var i = 0, current='';
+			var i = 0
+			var current = '';
 			while(i < rows.length) {
-				if(current != rows[i].katagori) {
-					console.log(tab);
-					current=rows[i].katagori;
-					page.write(tab,'</div>');
-					page.write(tab+1,'</div>');
-					page.write(tab+2,'<div class="panel panel-default">');
-					page.write(tab+3,'<div class="panel-heading">');
-					page.write(tab+4,'<h3 class="panel-title">' + current + '</h3>');
-					page.write(tab+3,'</div>');
-					page.write(tab+3,'<div class="panel-body">');
-					page.write(tab+4,rows[i].filmnavn + " - " + rows[i].note + " - " + rows[i].kategori);	
+				if(current != rows[i].kategori) {
+					current=rows[i].kategori;
+					if(i != 0) {
+						page.write(tab+2,'</div>');
+						page.write(tab+1,'</div>');
+					}
+					page.write(tab+1,'<div class="panel panel-default">');
+					page.write(tab+2,'<div class="panel-heading">');
+					page.write(tab+3,'<h3 class="panel-title">' + current + '</h3>');
+					page.write(tab+2,'</div>');
+					page.write(tab+2,'<div class="panel-body">');
+					page.write(tab+3,'<p>' + rows[i].filmnavn + " - " + rows[i].note + '</p>');	
 				} else {	
-					page.write(tab+4,rows[i].filmnavn + " - " + rows[i].note + " - " + rows[i].kategori);	
+					page.write(tab+3,'<p>' + rows[i].filmnavn + " - " + rows[i].note + '</p>');	
 				}
 				i++;
 			}
 
-
+			page.write(tab+2,'</div>');
+			page.write(tab+1,'</div>');
 			page.write(2, '</div>');
 			page.write(2,'<div class="tab-pane" id="messages">');
 			page.write(3,'<h1>test</h1>');
