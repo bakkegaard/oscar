@@ -100,12 +100,11 @@ function makeVotePage(res){
 	page.write(0,'<h1>Voting</h1>');
 
 	pool.getConnection(function(err,connection){
-		connection.query("select t1.id,filmnavn,note,navn as kategori from (SELECT nominering.id, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
+		connection.query("select t1.id,filmnavn,note,navn as kategori from (SELECT nominering.id, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori ORDER BY kategori", function(err, rows, fields) {
 	
 		  if (err) throw err;
 		  page.write(1,'<form>');
 
-		  rows.sort(function(a,b){return a<b});
 
 			var i=0, current='lalala';
 			while(i<rows.length){
