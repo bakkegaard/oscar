@@ -191,7 +191,6 @@ function makeFrontPage(res){
 	page.write(1,'<ul class="nav nav-tabs" id="myTabs">');
 	page.write(2,'<li class="active"><a href="#scoreboard">Scoreboard</a></li>');
 	page.write(2,'<li><a href="#nominations">Nominations</a></li>');
-	page.write(2,'<li><a href="#messages">Messages</a></li>');
 	page.write(1,'</ul>');
 	page.write(1,'<div class="tab-content">');
 	page.write(2,'<div class="tab-pane active" id="scoreboard">');
@@ -205,14 +204,25 @@ function makeScoreboard(page, tab) {
 	page.write(tab+3,'<tr>');
 	page.write(tab+4,'<th>Name</th>');
 	page.write(tab+4,'<th>Correct</th>');
-	page.write(tab+4,'<th>Wrong</th>');
+	//page.write(tab+4,'<th>Wrong</th>');
 	page.write(tab+3,'</tr>');
-	page.write(tab+2,'</table>');
-	page.write(tab+1,'</div>');	
+	pool.getConnection(function(err, connection){
+		connection.query('select navn,SUM(winner) as sum FROM ( (select * from user INNER JOIN guess ON user.id=guess.user) AS t1 INNER JOIN nominering ON t1.nominering=nominering.id) GROUP BY navn ORDER BY sum(winner) DESC', function(err,rows,fields){
+			for(var i=0;i<rows.length;i++){
+				page.write(0,'<tr>');
+				page.write(0,'<td>'+rows[i].navn+'</td>');
+				page.write(0,'<td>'+rows[i].sum+'</td>');
+				page.write(0,'</tr>');
+			}
+			page.write(tab+2,'</table>');
+			page.write(tab+1,'</div>');	
 
-	page.write(2,'</div>');
-	page.write(2,'<div class="tab-pane" id="nominations">');
-	makeNominations(page, 2);
+			page.write(2,'</div>');
+			page.write(2,'<div class="tab-pane" id="nominations">');
+			makeNominations(page, 2);
+		});
+
+	});
 }
 
 function makeNominations(page, tab) {
@@ -261,9 +271,6 @@ function makeNominations(page, tab) {
 			page.write(tab+2,'</div>');
 			page.write(tab+1,'</div>');
 			page.write(2, '</div>');
-			page.write(2,'<div class="tab-pane" id="messages">');
-			page.write(3,'<h1>test</h1>');
-			page.write(2,'</div>');
 			page.write(1,'</div>');	
 			
 			page.write(0,'</center>');
