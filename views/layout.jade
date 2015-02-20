@@ -1,0 +1,16 @@
+html
+  head
+    title= title
+    link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/css/style.css')
+  body
+    div#content
+        h1 Welcome to the oscars #{year}
+        ul.nav.nav-tabs
+          li
+            a(href="/") Standing
+          li 
+            a(href="/nominations") Nomination
+          li 
+            a(href="/make_guess") Make guess
