@@ -22,14 +22,16 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res){
 	res.render('standings', {
 		title: 'Home',
-        year: config.year
+        year: config.year,
+        path: 'standings'
 	});
 });
 
 app.get('/nominations', function(req, res){
     res.render('nominations', {
         title: 'Home',
-        year: config.year
+        year: config.year,
+        path: 'nominations'
     });
     pool.getConnection(function(err,connection){
         connection.query("select * from film", function(err, rows, fields) {
@@ -41,7 +43,8 @@ app.get('/nominations', function(req, res){
 app.get('/make_guess', function(req, res){
     res.render('make_guess', {
         title: 'Make guess',
-        year: config.year
+        year: config.year,
+        path: 'make_guess'
     });
 });
 
