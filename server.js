@@ -45,10 +45,27 @@ app.get('/nominations', function(req, res){
 });
 
 app.get('/make_guess', function(req, res){
-    res.render('make_guess', {
-        title: 'Make guess',
+    pool.getConnection(function(err,connection){
+        connection.query("select t1.id,filmnavn,note,navn as kategori, winner from (SELECT nominering.id,winner, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
+            if(err) {
+                throw err;
+            }
+            res.render('make_guess', {
+                title: 'Make guess',
+                year: config.year,
+                path: 'make_guess',
+                results: application_js.convert_result(rows)
+            });
+        });
+    });
+});
+
+app.post('/submit_guess', function(req, res) {
+    console.log(res.body);
+    res.render('standings', {
+        title: 'Home',
         year: config.year,
-        path: 'make_guess'
+        path: 'standings'
     });
 });
 

@@ -15,7 +15,6 @@ application_js.convert_result = function (result) {
             temp.push(result[i]);
         }
     }
-    console.log(res);
     return res;
 }
 

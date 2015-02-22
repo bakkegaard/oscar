@@ -18,8 +18,14 @@ block content
                         tbody
                             - each nom in noms
                                 tr
-                                    td
-                                        p #{nom.filmnavn}
-                                    td
-                                        p #{nom.note}
+                                    - if(nom.kategori == 'Best Actor' || nom.kategori == 'Best Actress' || nom.kategori == 'Best Supporting Actor' || nom.kategori == 'Best Supporting Actress' || nom.kategori == 'Best Original Song' || nom.kategori == 'Best Director')
+                                        td
+                                            p #{nom.note}
+                                        td
+                                            p #{nom.filmnavn}
+                                    - else
+                                        td
+                                            p #{nom.filmnavn}
+                                        td
+                                            p #{nom.note}
 
