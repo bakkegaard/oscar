@@ -81,7 +81,6 @@ app.post('/guess', function(req, res){
 app.get('/nominations', function(req, res){
     pool.getConnection(function(err,connection){
         connection.query("select t1.id,filmnavn,note,navn as kategori, winner from (SELECT nominering.id,winner, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
-			  console.log(rows);
             if(err) {
                 throw err;
             }
