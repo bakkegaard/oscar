@@ -3,3 +3,23 @@ extends layout
 block content
     div#nominations
         h1 Nominations
+        div.panel.panel-default
+            - each noms, cat in results
+                div.panel-heading
+                    b #{cat}
+                div.panel-body
+                    table.table.table-striped
+                        thead
+                            tr
+                                td(style='width: 50%')
+                                    b Movie
+                                td(style='width: 50%')
+                                    b Note
+                        tbody
+                            - each nom in noms
+                                tr
+                                    td
+                                        p #{nom.filmnavn}
+                                    td
+                                        p #{nom.note}
+

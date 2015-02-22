@@ -4,6 +4,7 @@ var app = express();
 
 var mysql =  require('mysql');
 var config = require('./config.js')
+var application_js = require('./javascript/application.js')
 
 var pool = mysql.createPool({
     host     : config.host,
@@ -28,14 +29,17 @@ app.get('/', function(req, res){
 });
 
 app.get('/nominations', function(req, res){
-    res.render('nominations', {
-        title: 'Home',
-        year: config.year,
-        path: 'nominations'
-    });
     pool.getConnection(function(err,connection){
-        connection.query("select * from film", function(err, rows, fields) {
-            console.log(rows);
+        connection.query("select t1.id,filmnavn,note,navn as kategori, winner from (SELECT nominering.id,winner, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
+            if(err) {
+                throw err;
+            }
+            res.render('nominations', {
+                title: 'Home',
+                year: config.year,
+                path: 'nominations',
+                results: application_js.convert_result(rows)
+            });
         });
     });
 });
