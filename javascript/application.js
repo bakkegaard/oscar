@@ -15,7 +15,8 @@ application_js.convert_result = function (result) {
             temp.push(result[i]);
         }
     }
-    return res;
+    res[current_cat] = temp;
+    return res
 };
 
 module.exports = application_js;
