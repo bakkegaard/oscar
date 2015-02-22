@@ -646,4 +646,4 @@ for(let i=0;i<obj.length;i++){
 //print the result to the terminal
 for(let i=0;i<filmArray.length;i++) console.log("(\"",filmArray[i],"\"),");
 for(let i=0;i<categoryArray.length;i++) console.log("(\"",categoryArray[i],"\"),");
-for(let i=0;i<nominationArray.length;i++) console.log("(",nominationArray[i].filmid,",",nominationArray[i].kategori,",\"",nominationArray[i].note,"\"),");
+for(let i=0;i<nominationArray.length;i++) console.log("(",nominationArray[i].filmid+1,",",nominationArray[i].kategori+1,",\"",nominationArray[i].note,"\"),");
