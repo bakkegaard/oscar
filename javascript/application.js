@@ -1,9 +1,9 @@
 var application_js= {};
 
 application_js.convert_result = function (result) {
-    current_cat = result[0].kategori;
-    res = {};
-    temp = [];
+    var current_cat = result[0].kategori;
+    var res = {};
+    var temp = [];
     for(var i = 0; i < result.length; i++) {
         if(current_cat != result[i].kategori) {
             res[current_cat] = temp;
@@ -16,7 +16,6 @@ application_js.convert_result = function (result) {
         }
     }
     return res;
-}
+};
 
 module.exports = application_js;
-
