@@ -27,7 +27,6 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res){
     pool.getConnection(function(err,connection){
         connection.query("select navn,SUM(winner) as sum FROM ( (select * from user INNER JOIN guess ON user.id=guess.user) AS t1 INNER JOIN nominering ON t1.nominering=nominering.id) GROUP BY navn ORDER BY sum(winner) DESC", function(err, rows, fields) {
-            console.log(rows);
             if(err) {
                 throw err;
             }
