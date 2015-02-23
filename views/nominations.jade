@@ -11,14 +11,21 @@ block content
                     table.table.table-striped
                         thead
                             tr
-                                td(style='width: 50%')
-                                    b Movie
-                                td(style='width: 50%')
-                                    b Note
+                                - if(cat == ' Actor in a Leading Role ' || cat == ' Actress in a Leading Role ' || cat == ' Actor in a Supporting Role ' || cat == ' Actress in a Supporting Role ' || cat == ' Music Original Song ' || cat == ' Directing ')
+                                    td(style='width: 50%')
+                                        b Name
+                                    td(style='width: 50%')
+                                        b Movie
+                                - else
+                                    td(style='width: 50%')
+                                        b Movie
+                                    td(style='width: 50%')
+                                        b Note
+
                         tbody
                             - each nom in noms
                                 tr
-                                    - if(nom.kategori == 'Best Actor' || nom.kategori == 'Best Actress' || nom.kategori == 'Best Supporting Actor' || nom.kategori == 'Best Supporting Actress' || nom.kategori == 'Best Original Song' || nom.kategori == 'Best Director')
+                                    - if(nom.kategori == ' Actor in a Leading Role ' || nom.kategori == ' Actress in a Leading Role ' || nom.kategori == ' Actor in a Supporting Role ' || nom.kategori == ' Actress in a Supporting Role ' || nom.kategori == ' Music Original Song ' || nom.kategori == ' Directing ')
                                         td
                                             p #{nom.note}
                                         td
