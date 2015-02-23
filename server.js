@@ -30,6 +30,7 @@ app.get('/', function(req, res){
 			if(err) {
 				throw err;
 			}
+							connection.release();
 			res.render('standings', {
 				title: 'Home',
 				year: config.year,
@@ -80,11 +81,12 @@ app.post('/guess', function(req, res){
 
 			}
 
-					pool.getConnection(function(err,connection,nom){
 						connection.query(sql, function(err, rows, fields) {
 							if(err){
 								throw err;
 							}
+
+							connection.release();
 							
 							res.render('guess',{
 								title: 'Home',
@@ -92,7 +94,6 @@ app.post('/guess', function(req, res){
 								path: 'guess'
 							});
 						});
-					});
 
 		});
 	});
@@ -105,6 +106,7 @@ app.get('/nominations', function(req, res){
 			if(err) {
 				throw err;
 			}
+							connection.release();
 			res.render('nominations', {
 				title: 'Home',
 				year: config.year,
@@ -121,6 +123,7 @@ app.get('/make_guess', function(req, res){
 			if(err) {
 				throw err;
 			}
+							connection.release();
 			res.render('make_guess', {
 				title: 'Home',
 				year: config.year,
