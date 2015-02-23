@@ -27,7 +27,6 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', function(req, res){
 	pool.getConnection(function(err,connection){
 		connection.query("select navn,SUM(winner) as sum FROM ( (select * from user INNER JOIN guess ON user.id=guess.user) AS t1 INNER JOIN nominering ON t1.nominering=nominering.id) GROUP BY navn ORDER BY sum(winner) DESC", function(err, rows, fields) {
-			console.log(rows);
 			if(err) {
 				throw err;
 			}
@@ -58,7 +57,7 @@ app.post('/guess', function(req, res){
 		path: 'mistake'
 	});
 	}
-	if(nomination!=24){
+	if(nomination.length!=24){
 	res.render('mistake',{
 		title: 'mistake',
 		year: config.year,
@@ -75,23 +74,27 @@ app.post('/guess', function(req, res){
 			if(err) {
 				throw err;
 			}
-			for(var i=0;i<nomination.length;i++){
+			var sql="INSERT INTO guess (user,nominering) values ("+ id +","+nomination[0]+")";
+			for(var i=1;i<nomination.length;i++){
+				sql+=",(\'"+id+"\',\'"+nomination[i]+"\')";
 
-				(function(nom){
-					pool.getConnection(function(err,connection){
-						connection.query("INSERT INTO guess (user,nominering) VALUES(\'"+id+"\',\'"+nom+"\')", function(err, rows, fields) {
-
-						});
-					});
-				})(nomination[i]);
 			}
 
+					pool.getConnection(function(err,connection,nom){
+						connection.query(sql, function(err, rows, fields) {
+							if(err){
+								throw err;
+							}
+							
+							res.render('guess',{
+								title: 'Home',
+								year: config.year,
+								path: 'guess'
+							});
+						});
+					});
+
 		});
-	});
-	res.render('guess',{
-		title: 'Home',
-		year: config.year,
-		path: 'guess'
 	});
 });
 
