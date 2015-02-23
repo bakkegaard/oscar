@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    div#standings
+        h1 Standings
+        div.panel.panel-default
+            div.panel-heading
+                b Scoreboard
+            div.panel-body
+                table.table.table-striped
+                    thead
+                        tr
+                            td(style='width: 75%')
+                                b Name
+                            td(style='width: 25%')
+                                b Corrects
+                    tbody
+                        - each result in results
+                            tr
+                                td
+                                    p #{result.navn}
+                                td
+                                    p #{result.sum}

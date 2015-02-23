@@ -1,0 +1,33 @@
+extends layout
+
+block content
+    div#nominations
+        h1 Make guess
+        div.panel.panel-default
+            form(action='/guess',method='post')
+                - each noms, cat in results
+                    div.panel-heading
+                        b #{cat}
+                    div.panel-body
+                        table.table.table-striped
+                            thead
+                                tr
+                                    td(style='width: 48%')
+                                        b Movie
+                                    td(style='width: 48%')
+                                        b Note
+                                    td(style='width: 4%;')
+                                        b #
+                            tbody
+                                - each nom in noms
+                                    tr
+                                        td
+                                            p #{nom.filmnavn}
+                                        td
+                                            p #{nom.note}
+                                        td
+                                            input(type='radio',name=cat,value=nom.id)
+                center
+                    h4 Name: 
+                    input(name='name')
+                    input(type='submit',value='make guess')

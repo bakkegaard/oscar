@@ -63,7 +63,6 @@ INSERT INTO film(navn) VALUES
 ('The Wind Rises'),
 ('The Wolf of Wall Street');
 
-
 INSERT INTO kategori(navn) VALUES 
 ('Best Actor'),
 ('Best Actress'),
@@ -89,8 +88,6 @@ INSERT INTO kategori(navn) VALUES
 ('Best Visual Effects'),
 ('Best Writing - Adapted Screenplay'),
 ('Best Writing - Original Screenplay');
-
-
 
 INSERT INTO nominering(film,kategori,note) VALUES 
 (4,1,'Christian Bale'),
