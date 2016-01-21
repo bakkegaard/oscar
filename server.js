@@ -1,14 +1,11 @@
 #!/usr/bin/node
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser')
 
 var mysql =  require('mysql');
 var config = require('./config.js')
 var application_js = require('./javascript/application.js')
-
-app.use(express.json());       // to support JSON-encoded bodies
-app.use(express.urlencoded()); // to support URL-encoded bodies
-
 
 var pool = mysql.createPool({
 	host     : config.host,
