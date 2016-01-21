@@ -1,3 +1,4 @@
+"use strict";
 let obj=[
   {
     "category": "Best Picture",

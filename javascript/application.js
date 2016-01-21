@@ -1,10 +1,11 @@
-var application_js= {};
+"use strict";
+let application_js= {};
 
 application_js.convert_result = function (result) {
-    var current_cat = result[0].category;
-    var res = {};
-    var temp = [];
-    for(var i = 0; i < result.length; i++) {
+    let current_cat = result[0].category;
+    let res = {};
+    let temp = [];
+    for(let i = 0; i < result.length; i++) {
         if(current_cat != result[i].category) {
             res[current_cat] = temp;
             current_cat = result[i].category;

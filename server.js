@@ -1,12 +1,13 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser')
+"use strict";
+let express = require('express');
+let app = express();
+let bodyParser = require('body-parser')
 
-var mysql =  require('mysql');
-var config = require('./config.js')
-var application_js = require('./javascript/application.js')
+let mysql =  require('mysql');
+let config = require('./config.js')
+let application_js = require('./javascript/application.js')
 
-var pool = mysql.createPool({
+let pool = mysql.createPool({
 	host     : config.host,
 	user     : config.user,
 	password : config.password,
@@ -24,7 +25,7 @@ app.set('view engine', 'jade')
 //Serve files from public directory
 app.use(express.static(__dirname + '/public'));
 
-var sql_standings= "SELECT name,"+
+let sql_standings= "SELECT name,"+
        "SUM(winner) AS sum "+
 "FROM ("+
       "(SELECT * "+
@@ -51,11 +52,11 @@ app.get('/', function(req, res){
 
 });
 app.post('/guess', function(req, res){
-	var obj= req.body;
-	var nomination= new Array;
+	let obj= req.body;
+	let nomination= new Array;
 	console.log(obj);
-	var name;
-	for(i in obj){
+	let name;
+	for(let i in obj){
 		if(i==="name") name=obj[i];
 		else nomination.push(obj[i]);
 	}
@@ -81,12 +82,12 @@ app.post('/guess', function(req, res){
 
 	pool.getConnection(function(err,connection){
 		connection.query("INSERT INTO user (name) VALUES (\'"+name+"\')", function(err, result) {
-			var id= result.insertId;
+			let id= result.insertId;
 			if(err) {
 				throw err;
 			}
-			var sql="INSERT INTO guess (user,nomination) values ("+ id +","+nomination[0]+")";
-			for(var i=1;i<nomination.length;i++){
+			let sql="INSERT INTO guess (user,nomination) values ("+ id +","+nomination[0]+")";
+			for(let i=1;i<nomination.length;i++){
 				sql+=",(\'"+id+"\',\'"+nomination[i]+"\')";
 
 			}
@@ -109,7 +110,7 @@ app.post('/guess', function(req, res){
 	});
 });
 
-var sql_nominations= "SELECT t1.id, "+
+let sql_nominations= "SELECT t1.id, "+
        "movie_title, "+
        "note, "+
        "name AS category, "+
@@ -141,7 +142,7 @@ app.get('/nominations', function(req, res){
 	});
 });
 
-var sql_make_guess= "select t1.id,filmnavn,note,navn as kategori, winner from (SELECT nominering.id,winner, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori";
+let sql_make_guess= "select t1.id,filmnavn,note,navn as kategori, winner from (SELECT nominering.id,winner, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori";
 
 app.get('/make_guess', function(req, res){
 	pool.getConnection(function(err,connection){
