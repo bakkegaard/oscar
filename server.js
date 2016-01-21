@@ -54,7 +54,6 @@ app.get('/', function(req, res){
 app.post('/guess', function(req, res){
 	let obj= req.body;
 	let nomination= new Array;
-	console.log(obj);
 	let name;
 	for(let i in obj){
 		if(i==="name") name=obj[i];
