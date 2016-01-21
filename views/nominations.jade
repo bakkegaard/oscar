@@ -25,14 +25,14 @@ block content
                         tbody
                             - each nom in noms
                                 tr
-                                    - if(nom.kategori == ' Actor in a Leading Role ' || nom.kategori == ' Actress in a Leading Role ' || nom.kategori == ' Actor in a Supporting Role ' || nom.kategori == ' Actress in a Supporting Role ' || nom.kategori == ' Music Original Song ' || nom.kategori == ' Directing ')
+                                    - if(nom.category == ' Actor in a Leading Role ' || nom.category == ' Actress in a Leading Role ' || nom.category == ' Actor in a Supporting Role ' || nom.category == ' Actress in a Supporting Role ' || nom.category == ' Music Original Song ' || nom.category == ' Directing ')
                                         td
                                             p #{nom.note}
                                         td
-                                            p #{nom.filmnavn}
+                                            p #{nom.movie_title}
                                     - else
                                         td
-                                            p #{nom.filmnavn}
+                                            p #{nom.movie_title}
                                         td
                                             p #{nom.note}
 

@@ -14,16 +14,29 @@ var pool = mysql.createPool({
 	database : config.database
 });
 
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+
 app.set('views', __dirname + '/views')
 app.set('view engine', 'jade')
 
 //Serve files from public directory
 app.use(express.static(__dirname + '/public'));
 
-
+var sql_standings= "SELECT name,"+
+       "SUM(winner) AS sum "+
+"FROM ("+
+      "(SELECT * "+
+         "FROM user "+
+         "INNER JOIN guess ON user.id=guess.user) AS t1 "+
+      "INNER JOIN nominations ON t1.nomination=nominations.id) "+
+"GROUP BY name "+
+"ORDER BY SUM(winner) DESC";
 app.get('/', function(req, res){
 	pool.getConnection(function(err,connection){
-		connection.query("select navn,SUM(winner) as sum FROM ( (select * from user INNER JOIN guess ON user.id=guess.user) AS t1 INNER JOIN nominering ON t1.nominering=nominering.id) GROUP BY navn ORDER BY sum(winner) DESC", function(err, rows, fields) {
+		connection.query(sql_standings, function(err, rows, fields) {
 			if(err) {
 				throw err;
 			}
@@ -41,6 +54,7 @@ app.get('/', function(req, res){
 app.post('/guess', function(req, res){
 	var obj= req.body;
 	var nomination= new Array;
+	console.log(obj);
 	var name;
 	for(i in obj){
 		if(i==="name") name=obj[i];
@@ -67,12 +81,12 @@ app.post('/guess', function(req, res){
 
 
 	pool.getConnection(function(err,connection){
-		connection.query("INSERT INTO user (navn) VALUES (\'"+name+"\')", function(err, result) {
+		connection.query("INSERT INTO user (name) VALUES (\'"+name+"\')", function(err, result) {
 			var id= result.insertId;
 			if(err) {
 				throw err;
 			}
-			var sql="INSERT INTO guess (user,nominering) values ("+ id +","+nomination[0]+")";
+			var sql="INSERT INTO guess (user,nomination) values ("+ id +","+nomination[0]+")";
 			for(var i=1;i<nomination.length;i++){
 				sql+=",(\'"+id+"\',\'"+nomination[i]+"\')";
 
@@ -96,10 +110,24 @@ app.post('/guess', function(req, res){
 	});
 });
 
+var sql_nominations= "SELECT t1.id, "+
+       "movie_title, "+
+       "note, "+
+       "name AS category, "+
+       "winner "+
+"FROM "+
+  "(SELECT nominations.id, "+
+          "winner, "+
+          "title AS movie_title, "+
+          "note, "+
+          "category "+
+   "FROM (movies "+
+         "INNER JOIN nominations ON movies.id=nominations.movie)) AS t1 "+
+"INNER JOIN category ON category.id=t1.category ";
 
 app.get('/nominations', function(req, res){
 	pool.getConnection(function(err,connection){
-		connection.query("select t1.id,filmnavn,note,navn as kategori, winner from (SELECT nominering.id,winner, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
+		connection.query(sql_nominations, function(err, rows, fields) {
 			if(err) {
 				throw err;
 			}
@@ -114,9 +142,11 @@ app.get('/nominations', function(req, res){
 	});
 });
 
+var sql_make_guess= "select t1.id,filmnavn,note,navn as kategori, winner from (SELECT nominering.id,winner, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori";
+
 app.get('/make_guess', function(req, res){
 	pool.getConnection(function(err,connection){
-		connection.query("select t1.id,filmnavn,note,navn as kategori, winner from (SELECT nominering.id,winner, navn as filmnavn,note,kategori FROM (film INNER JOIN nominering ON film.id=nominering.film)) as t1 INNER JOIN kategori ON kategori.id=t1.kategori", function(err, rows, fields) {
+		connection.query(sql_nominations, function(err, rows, fields) {
 			if(err) {
 				throw err;
 			}

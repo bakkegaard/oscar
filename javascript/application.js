@@ -1,13 +1,13 @@
 var application_js= {};
 
 application_js.convert_result = function (result) {
-    var current_cat = result[0].kategori;
+    var current_cat = result[0].category;
     var res = {};
     var temp = [];
     for(var i = 0; i < result.length; i++) {
-        if(current_cat != result[i].kategori) {
+        if(current_cat != result[i].category) {
             res[current_cat] = temp;
-            current_cat = result[i].kategori;
+            current_cat = result[i].category;
             temp = [];
             temp.push(result[i]);
         }
